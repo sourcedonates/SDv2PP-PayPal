@@ -2,17 +2,43 @@
 
 namespace Arrow768\Sdv2ppPaypal;
 
+/**
+ *  PayPal Handler
+ *
+ *  A class to create new paypal payments
+ *
+ *  @package    Sdv2ppPaypal
+ *  @author     Werner Maisl
+ *  @copyright  (c) 2014 - Werner Maisl
+ *  @version    0.1
+ */
 class paypal_handler
 {
-
+    /**
+     * Fields sent to paypal
+     * 
+     * $fields stores fields (key => value) that will be sent to paypal
+     * 
+     */
     var $fields = array();
 
+    /**
+     * Adds a field to the array that is sent to paypal
+     * 
+     * @param string $field Name of the field that is sent to paypal
+     * @param string $value Value of the field that is sent to paypal
+     */
     function add_field($field, $value)
     {
         //Adds a field that will be sent to paypal
         $this->fields["$field"] = $value;
     }
 
+    /**
+     * Creates the paypal payment
+     * 
+     * Posts the fields in $fields to paypal
+     */
     function submit_paypal_post()
     {
         echo "<html>\n<head><title>Processing Payment...</title></head>\n";
@@ -28,6 +54,9 @@ class paypal_handler
         echo "</form>\n</body></html>\n";
     }
 
+    /**
+     * Prints the fields in $fields at the redirect page
+     */
     function dump_fields()
     {
         echo "<h3>paypal_class->dump_fields() Output:</h3>";

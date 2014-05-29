@@ -2,12 +2,17 @@
 
 namespace Arrow768\Sdv2ppPaypal;
 
+/**
+ * SDv2 Payment Provider for Paypal
+ * 
+ * A PayPal Payment Provider for SDv2
+ * Contains the required functions that are used by SDv2
+ */
 class payment_paypal
 {
 
     /**
-     * Returns a array with the Payment Providers handled by this Provider
-     * 
+     * Returns a array with information about this payment provider
      * 
      * @return mixed Returns a Array of the handled payment providers
      * 
@@ -25,9 +30,12 @@ class payment_paypal
     /**
      * Initiates the payment with the selected payment provider
      * 
-     * 
+     * @param int $amount The amount of the payment
+     * @param string $transaction_id The transaction ID of the payment
+     * @param string $currency The currency of the Transaction 3Chars
+     * @param mixed $attrs Array with optional attrs
      */
-    function initiate_payment($amount, $transaction_id)
+    function initiate_payment($amount, $transaction_id, $currency, $attrs=array())
     {
 
         $item_name = 'Order ID: ' . $transaction_id;
@@ -51,7 +59,7 @@ class payment_paypal
         $p->add_field('notify_url', \URL::to('ipn/paypal')); // the IPN Processer
         $p->add_field('item_name', $item_name); //the name of the item
         $p->add_field('amount', $amount); //the price of the item
-        $p->add_field('currency_code', \Config::get('itemsviewer.payment_paypal_currency')); //the currency of the price
+        $p->add_field('currency_code', $currency); //the currency of the price
         $p->add_field('rm', '2'); // the return method; 2 = Post
         $p->add_field('cmd', '_donations'); //the payment is a donation
         $p->submit_paypal_post(); //submits the post
@@ -61,6 +69,13 @@ class payment_paypal
         }
     }
 
+    /**
+     * Processes the IPN
+     * 
+     * TODO: Perform Fraund checks
+     * 
+     * @return string Returns valid or invalid if the payment is valid/invalid
+     */
     function process_ipn()
     {
 

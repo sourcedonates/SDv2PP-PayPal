@@ -2,7 +2,7 @@
 
 /*
   |--------------------------------------------------------------------------
-  | Application Routes
+  | SDv2PPPayPal Routes
   |--------------------------------------------------------------------------
   |
   | Here is where you can register all of the routes for an application.
@@ -17,4 +17,5 @@ Route::get('/test', function()
     return "test";
 });
 
-Route::any('/ipn/paypal', 'PaymentController@process_ipn');
+Route::any('/ipn/paypal', 'PPIpnController@process_ipn');
+Route::any('/payment/test/paypal','PPIpnController@test_payment');
