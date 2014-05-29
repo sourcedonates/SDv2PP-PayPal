@@ -1,0 +1,23 @@
+{
+    "name": "arrow768/sdv2pp-paypal",
+    "description": "",
+    "authors": [
+        {
+            "name": "Arrow768",
+            "email": "arrow768@sourcedonates.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Arrow768\\Sdv2ppPaypal\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
