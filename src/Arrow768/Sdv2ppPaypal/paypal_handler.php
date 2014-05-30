@@ -18,7 +18,6 @@ class paypal_handler
      * Fields sent to paypal
      * 
      * $fields stores fields (key => value) that will be sent to paypal
-     * 
      */
     var $fields = array();
 
