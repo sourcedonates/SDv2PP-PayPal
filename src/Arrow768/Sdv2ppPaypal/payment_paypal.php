@@ -107,7 +107,7 @@ class payment_paypal
             $error_text = "";
             
             //Get the details for the payment from the paypal post
-            $transaction_id = Input::get('custom');
+            $transaction_id = Illuminate\Support\Facades\Input::get('custom');
             $currency = Illuminate\Support\Facades\Input::get('mc_currency');
             $price = Illuminate\Support\Facades\Input::get('mc_gross');
             $business = Illuminate\Support\Facades\Input::get('business');
