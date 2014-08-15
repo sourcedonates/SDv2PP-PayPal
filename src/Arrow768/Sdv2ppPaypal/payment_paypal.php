@@ -108,11 +108,11 @@ class payment_paypal
             
             //Get the details for the payment from the paypal post
             $transaction_id = Input::get('custom');
-            $currency = Input::get('mc_currency');
-            $price = Input::get('mc_gross');
-            $business = Input::get('business');
-            $payer_email = Input::get('payer_email');
-            $pp_txnid = Input::get('txn_id');
+            $currency = Illuminate\Support\Facades\Input::get('mc_currency');
+            $price = Illuminate\Support\Facades\Input::get('mc_gross');
+            $business = Illuminate\Support\Facades\Input::get('business');
+            $payer_email = Illuminate\Support\Facades\Input::get('payer_email');
+            $pp_txnid = Illuminate\Support\Facades\Input::get('txn_id');
             fwrite($fh, '\n $transaction_id: '.$transaction_id.'\n');
             
             //Get the transaction id from the database
