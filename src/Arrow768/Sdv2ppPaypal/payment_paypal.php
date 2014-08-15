@@ -116,7 +116,7 @@ class payment_paypal
             fwrite($fh, '\n $transaction_id: '.$transaction_id.'\n');
             
             //Get the transaction id from the database
-            $transaction = SDPaymentTransaction::find($transaction_id);
+            $transaction = \SDPaymentTransaction::find($transaction_id);
             fwrite($fh, '\n $transaction: '.var_dump($transaction).'\n');
             
             //Check if the amount matches the stored amount
