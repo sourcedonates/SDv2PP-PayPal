@@ -36,8 +36,7 @@ class payment_paypal
      * @param mixed $attrs Array with optional attrs
      */
     function initiate_payment($amount, $transaction_id, $currency, $attrs=array())
-    {
-
+    {        
         $item_name = 'Order ID: ' . $transaction_id;
 
         $p = new paypal_handler;
@@ -63,7 +62,7 @@ class payment_paypal
         $p->add_field('rm', '2'); // the return method; 2 = Post
         $p->add_field('cmd', '_donations'); //the payment is a donation
         $p->submit_paypal_post(); //submits the post
-        if (\Config::get('itemsviewer.payment_paypal_debug') == "enabled")
+        if (\Config::get('sdv2.debug'))
         {
             $p->dump_fields();
         }
@@ -94,7 +93,7 @@ class payment_paypal
         }
         catch (Exception $e)
         {
-            // fatal error trying to process IPN.
+            fwrite($fh, $e);
             exit(0);
         }
 
@@ -102,6 +101,33 @@ class payment_paypal
 
         if ($verified)
         {
+            fwrite($fh, '\n verified \n');
+            
+            $error_num = 0;
+            $error_text = "";
+            
+            //Get the details for the payment from the paypal post
+            $transaction_id = Input::get('custom');
+            $currency = Input::get('mc_currency');
+            $price = Input::get('mc_gross');
+            $business = Input::get('business');
+            $payer_email = Input::get('payer_email');
+            $pp_txnid = Input::get('txn_id');
+            fwrite($fh, '\n $transaction_id: '.$transaction_id.'\n');
+            
+            //Get the transaction id from the database
+            $transaction = SDPaymentTransaction::find($transaction_id);
+            fwrite($fh, '\n $transaction: '.var_dump($transaction).'\n');
+            
+            //Check if the amount matches the stored amount
+            
+            
+            //Check if the currency matches the stored currency
+            
+            
+            //Check if the 
+            
+            
             fwrite($fh, '\n valid \n\n\n');
             return "valid";
         }
