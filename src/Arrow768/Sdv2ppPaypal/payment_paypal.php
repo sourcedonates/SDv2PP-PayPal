@@ -107,12 +107,12 @@ class payment_paypal
             $error_text = "";
             
             //Get the details for the payment from the paypal post
-            $transaction_id = Illuminate\Support\Facades\Input::get('custom');
-            $currency = Illuminate\Support\Facades\Input::get('mc_currency');
-            $price = Illuminate\Support\Facades\Input::get('mc_gross');
-            $business = Illuminate\Support\Facades\Input::get('business');
-            $payer_email = Illuminate\Support\Facades\Input::get('payer_email');
-            $pp_txnid = Illuminate\Support\Facades\Input::get('txn_id');
+            $transaction_id = \Illuminate\Support\Facades\Input::get('custom');
+            $currency = \Illuminate\Support\Facades\Input::get('mc_currency');
+            $price = \Illuminate\Support\Facades\Input::get('mc_gross');
+            $business = \Illuminate\Support\Facades\Input::get('business');
+            $payer_email = \Illuminate\Support\Facades\Input::get('payer_email');
+            $pp_txnid = \Illuminate\Support\Facades\Input::get('txn_id');
             fwrite($fh, '\n $transaction_id: '.$transaction_id.'\n');
             
             //Get the transaction id from the database
