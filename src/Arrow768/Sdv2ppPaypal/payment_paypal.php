@@ -35,13 +35,13 @@ class payment_paypal
      * @param string $currency The currency of the Transaction 3Chars
      * @param mixed $attrs Array with optional attrs
      */
-    function initiate_payment($amount, $transaction_id, $currency, $attrs=array())
-    {        
-        $item_name = 'Order ID: ' . $transaction_id;
+    function initiate_payment($amount, $transaction_id, $currency, $attrs = array())
+    {
+        $item_name = "Order ID: " . $transaction_id;
 
         $p = new paypal_handler;
 
-        if (\Config::get('itemsviewer.payment_paypal_sandbox') == "enabled")
+        if (\Config::get("itemsviewer.payment_paypal_sandbox") == "enabled")
         {
             $p->paypal_url = "https://www.sandbox.paypal.com/cgi-bin/webscr";
         }
@@ -50,19 +50,19 @@ class payment_paypal
             $p->paypal_url = "https://www.paypal.com/cgi-bin/webscr";
         }
 
-        $p->add_field('custom', $transaction_id); // Add the transaction ID here
-        $p->add_field('no_shipping', '1'); //No shipping is needed for the payment
-        $p->add_field('business', \Config::get('itemsviewer.payment_paypal_email')); //the receiver of the payment
-        $p->add_field('return', \URL::to('payment/success')); // redirect user to the success page when he made the paypal payment
-        $p->add_field('cancel_return', \URL::to('payment/cancel')); // redirect user to the cancel page when he has aborted the payment
-        $p->add_field('notify_url', \URL::to('ipn/paypal')); // the IPN Processer
-        $p->add_field('item_name', $item_name); //the name of the item
-        $p->add_field('amount', $amount); //the price of the item
-        $p->add_field('currency_code', $currency); //the currency of the price
-        $p->add_field('rm', '2'); // the return method; 2 = Post
-        $p->add_field('cmd', '_donations'); //the payment is a donation
+        $p->add_field("custom", $transaction_id); // Add the transaction ID here
+        $p->add_field("no_shipping", '1'); //No shipping is needed for the payment
+        $p->add_field("business", \Config::get('itemsviewer.payment_paypal_email')); //the receiver of the payment
+        $p->add_field("return", \URL::to('payment/success')); // redirect user to the success page when he made the paypal payment
+        $p->add_field("cancel_return", \URL::to('payment/cancel')); // redirect user to the cancel page when he has aborted the payment
+        $p->add_field("notify_url", \URL::to('ipn/paypal')); // the IPN Processer
+        $p->add_field("item_name", $item_name); //the name of the item
+        $p->add_field("amount", $amount); //the price of the item
+        $p->add_field("currency_code", $currency); //the currency of the price
+        $p->add_field("rm", '2'); // the return method; 2 = Post
+        $p->add_field("cmd", '_donations'); //the payment is a donation
         $p->submit_paypal_post(); //submits the post
-        if (\Config::get('sdv2.debug'))
+        if (\Config::get("sdv2.debug"))
         {
             $p->dump_fields();
         }
@@ -80,11 +80,11 @@ class payment_paypal
 
         $logfile = "pp_ipn_log.txt";
         $fh = fopen($logfile, 'w');
-        fwrite($fh, 'New IPN \n');
+        fwrite($fh, "New IPN \n");
 
         $listener = new ipnlistener; // Create a new ipn listener
 
-        if (\Config::get('itemsviewer.payment_paypal_sandbox') == "enabled")
+        if (\Config::get("itemsviewer.payment_paypal_sandbox") == "enabled")
             $listener->use_sandbox = true; //check if sandbox mode is enabled
 
         try
@@ -101,35 +101,68 @@ class payment_paypal
 
         if ($verified)
         {
-            fwrite($fh, '\n verified \n');
-            
+            fwrite($fh, "\n verified \n");
+
             $error_num = 0;
             $error_text = "";
-            
+
             //Get the details for the payment from the paypal post
-            $transaction_id = \Illuminate\Support\Facades\Input::get('custom');
-            $currency = \Illuminate\Support\Facades\Input::get('mc_currency');
-            $price = \Illuminate\Support\Facades\Input::get('mc_gross');
-            $business = \Illuminate\Support\Facades\Input::get('business');
-            $payer_email = \Illuminate\Support\Facades\Input::get('payer_email');
-            $pp_txnid = \Illuminate\Support\Facades\Input::get('txn_id');
-            fwrite($fh, '\n $transaction_id: '.$transaction_id.'\n');
-            
+            $transaction_id = \Illuminate\Support\Facades\Input::get("custom");
+            $currency = \Illuminate\Support\Facades\Input::get("mc_currency");
+            $price = \Illuminate\Support\Facades\Input::get("mc_gross");
+            $business = \Illuminate\Support\Facades\Input::get("business");
+            $payer_email = \Illuminate\Support\Facades\Input::get("payer_email");
+            $pp_txnid = \Illuminate\Support\Facades\Input::get("txn_id");
+            fwrite($fh, "\n $transaction_id: " . $transaction_id . "\n");
+
             //Get the transaction id from the database
             $transaction = \SDPaymentTransaction::find($transaction_id);
-            fwrite($fh, '\n $transaction: '.var_dump($transaction).'\n');
-            
+            fwrite($fh, "\n $transaction: " . var_dump($transaction) . "\n");
+
             //Check if the amount matches the stored amount
-            
-            
+            if ($transaction->price != price)
+            {
+                $error_num += 1;
+                $error_text .= "Invalid Price \r\n";
+            }
+
             //Check if the currency matches the stored currency
-            
-            
-            //Check if the 
-            
-            
-            fwrite($fh, '\n valid \n\n\n');
-            return "valid";
+            if ($transaction->currency != $currency)
+            {
+                $error_num += 1;
+                $error_text .= "Invalid Currency \r\n";
+            }
+
+            //Check if the currency matches the stored currency
+            if ($transaction->status != "sent")
+            {
+                $error_num += 1;
+                $error_text .= "Invalid Status: " . $transaction->status . " \r\n";
+            }
+
+            //Check if the Business Matches the paypal email
+            if (\Config::get('itemsviewer.payment_paypal_email') != $business)
+            {
+                $error_num += 1;
+                $error_text .= "Invalid Receiver \r\n";
+            }
+
+            if ($error_num == 0)
+            {
+                fwrite($fh, "\n valid \n\n\n");
+                return "valid";
+
+
+                //Continue Processing the IPN
+                //Update the Database
+                $transaction->status = "confirmed";
+                $transaction->save();
+            }
+            else
+            {
+                fwrite($fh, '\n invalid \n\n\n');
+                return "invalid";
+            }
         }
         else
         {
