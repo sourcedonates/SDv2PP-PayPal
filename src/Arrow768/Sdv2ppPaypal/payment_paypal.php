@@ -7,6 +7,10 @@ namespace Arrow768\Sdv2ppPaypal;
  * 
  * A PayPal Payment Provider for SDv2
  * Contains the required functions that are used by SDv2
+ * 
+ *  @package    SDv2-PP-Paypal
+ *  @author     Werner Maisl
+ *  @copyright  (c) 2013-2014 - Werner Maisl
  */
 class payment_paypal
 {
