@@ -1,19 +1,20 @@
 {
     "name": "arrow768/sdv2pp-paypal",
-    "description": "",
+    "description": "SDv2 Payment Provider for PayPal",
     "authors": [
         {
-            "name": "Arrow768",
+            "name": "Werner Maisl",
             "email": "arrow768@sourcedonates.com"
         }
     ],
     "require": {
         "php": ">=5.3.0",
-        "illuminate/support": "4.0.*"
+        "illuminate/support": "4.2.*"
     },
     "autoload": {
         "classmap": [
-            "src/migrations"
+            "src/migrations",
+            "src/controllers"
         ],
         "psr-0": {
             "Arrow768\\Sdv2ppPaypal\\": "src/"
