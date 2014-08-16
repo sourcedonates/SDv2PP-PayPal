@@ -124,7 +124,7 @@ class payment_paypal
             fwrite($fh, "\n $transaction: " . var_dump($transaction) . "\n");
 
             //Check if the amount matches the stored amount
-            if ($transaction->price != price)
+            if ($transaction->price != $price)
             {
                 $error_num += 1;
                 $error_text .= "Invalid Price \r\n";
