@@ -159,7 +159,7 @@ class payment_paypal
                 $transaction->save();
                 
                 //Add the transaction to the queue
-                \Queue::push('\PaymentController@post_process',array("transaction"=>$transaction->id));
+                \Queue::push('PaymentQueueWorker',array("transaction"=>$transaction->id));
                 
                 fwrite($fh, "\n valid \n\n\n");
                 return "valid";
