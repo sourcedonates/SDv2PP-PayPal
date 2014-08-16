@@ -153,14 +153,16 @@ class payment_paypal
 
             if ($error_num == 0)
             {
-                fwrite($fh, "\n valid \n\n\n");
-                return "valid";
-
-
                 //Continue Processing the IPN
                 //Update the Database
                 $transaction->status = "confirmed";
                 $transaction->save();
+                
+                //Add the transaction to the queue
+                \Queue::push('\PaymentController@post_process',array("transaction"=>$transaction->id));
+                
+                fwrite($fh, "\n valid \n\n\n");
+                return "valid";
             }
             else
             {
