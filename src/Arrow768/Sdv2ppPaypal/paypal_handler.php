@@ -10,10 +10,11 @@ namespace Arrow768\Sdv2ppPaypal;
  *  @package    Sdv2ppPaypal
  *  @author     Werner Maisl
  *  @copyright  (c) 2014 - Werner Maisl
- *  @version    0.1
+ *  @version    0.1.0
  */
 class paypal_handler
 {
+
     /**
      * Fields sent to paypal
      * 

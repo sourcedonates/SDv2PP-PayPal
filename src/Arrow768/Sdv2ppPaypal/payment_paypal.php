@@ -45,7 +45,7 @@ class payment_paypal
 
         $p = new paypal_handler;
 
-        if (\Config::get("itemsviewer.payment_paypal_sandbox") == "enabled")
+        if (\Config::get("sdv2pp_paypal.sandbox") == "enabled")
         {
             $p->paypal_url = "https://www.sandbox.paypal.com/cgi-bin/webscr";
         }
@@ -56,7 +56,7 @@ class payment_paypal
 
         $p->add_field("custom", $transaction_id); // Add the transaction ID here
         $p->add_field("no_shipping", '1'); //No shipping is needed for the payment
-        $p->add_field("business", \Config::get('itemsviewer.payment_paypal_email')); //the receiver of the payment
+        $p->add_field("business", \Config::get('sdv2pp_paypal.receiver_email')); //the receiver of the payment
         $p->add_field("return", \URL::to('payment/success')); // redirect user to the success page when he made the paypal payment
         $p->add_field("cancel_return", \URL::to('payment/cancel')); // redirect user to the cancel page when he has aborted the payment
         $p->add_field("notify_url", \URL::to('ipn/paypal')); // the IPN Processer
@@ -66,7 +66,7 @@ class payment_paypal
         $p->add_field("rm", '2'); // the return method; 2 = Post
         $p->add_field("cmd", '_donations'); //the payment is a donation
         $p->submit_paypal_post(); //submits the post
-        if (\Config::get("sdv2.debug"))
+        if (\Config::get("sdv2pp_paypal.debug") == "enabled")
         {
             $p->dump_fields();
         }
@@ -88,7 +88,7 @@ class payment_paypal
 
         $listener = new ipnlistener; // Create a new ipn listener
 
-        if (\Config::get("itemsviewer.payment_paypal_sandbox") == "enabled")
+        if (\Config::get("sdv2pp_paypal.sandbox") == "enabled")
             $listener->use_sandbox = true; //check if sandbox mode is enabled
 
         try
@@ -145,7 +145,7 @@ class payment_paypal
             }
 
             //Check if the Business Matches the paypal email
-            if (\Config::get('itemsviewer.payment_paypal_email') != $business)
+            if (\Config::get('sdv2pp_paypal.receiver_email') != $business)
             {
                 $error_num += 1;
                 $error_text .= "Invalid Receiver \r\n";
