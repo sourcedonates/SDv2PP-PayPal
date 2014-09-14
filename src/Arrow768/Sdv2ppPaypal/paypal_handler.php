@@ -3,17 +3,32 @@
 namespace Arrow768\Sdv2ppPaypal;
 
 /**
- *  PayPal Handler
+ * PayPal Handler
  *
- *  A class to create new paypal payments
- *
- *  @package    Sdv2ppPaypal
- *  @author     Werner Maisl
- *  @copyright  (c) 2014 - Werner Maisl
- *  @version    0.1
+ * A class to create new paypal payments
+ * 
+ * This file is Part of SDv2PP-Paypal
+ * SDv2PP-Paypal is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @package    SDv2PP-Paypal
+ * @author     Werner Maisl
+ * @copyright  (c) 2013-2014 - Werner Maisl
+ * @license    GNU AGPLv3 http://www.gnu.org/licenses/agpl-3.0.txt
  */
 class paypal_handler
 {
+
     /**
      * Fields sent to paypal
      * 
