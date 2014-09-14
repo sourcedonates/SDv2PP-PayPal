@@ -1,16 +1,30 @@
 <?php
 
 namespace Arrow768\Sdv2ppPaypal;
-
 /**
  * SDv2 Payment Provider for Paypal
  * 
  * A PayPal Payment Provider for SDv2
  * Contains the required functions that are used by SDv2
  * 
- *  @package    SDv2-PP-Paypal
- *  @author     Werner Maisl
- *  @copyright  (c) 2013-2014 - Werner Maisl
+ * This file is Part of SDv2PP-Paypal
+ * SDv2PP-Paypal is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version. 
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @package    SDv2PP-Paypal
+ * @author     Werner Maisl
+ * @copyright  (c) 2013-2014 - Werner Maisl
+ * @license    GNU AGPLv3 http://www.gnu.org/licenses/agpl-3.0.txt
  */
 class payment_paypal
 {
